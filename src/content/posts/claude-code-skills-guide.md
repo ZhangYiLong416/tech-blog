@@ -3,6 +3,8 @@ title: "Claude Code Skill 详解：把重复提示词变成可复用能力"
 description: "系统讲清 Claude Code Skills 的目录结构、SKILL.md 写法、触发方式、团队共享和调试方法。"
 published: 2026-05-14
 tags: ["Claude Code", "Skills", "AI 编程", "自动化"]
+category: "推荐"
+author: "柚子是只猫"
 ---
 
 如果你经常对 Claude Code 重复说同一段话，比如“请按我们团队的代码审查标准检查这个 PR”，或者“生成文章时使用固定结构和语气”，那就应该考虑把它做成 Skill。

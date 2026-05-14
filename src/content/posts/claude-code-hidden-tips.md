@@ -3,6 +3,9 @@ title: "Claude Code 隐藏技巧：学会这些，协作效率会明显变高"
 description: "整理 Claude Code 中容易被忽略但很实用的上下文、规划、权限、截图、Hooks 和多任务技巧。"
 published: 2026-05-14
 tags: ["Claude Code", "效率工具", "AI 编程", "工作流"]
+category: "推荐"
+author: "柚子是只猫"
+
 ---
 
 Claude Code 的基础用法很简单：打开终端，描述需求，让它读代码和改文件。但真正影响效率的，往往是一些不太显眼的工作习惯。

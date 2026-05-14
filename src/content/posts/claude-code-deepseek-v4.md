@@ -3,6 +3,11 @@ title: "在 Claude Code 里使用 DeepSeek V4：配置、模型映射与排错"
 description: "通过 DeepSeek 的 Anthropic 兼容接口，把 Claude Code 的终端工作流接到 DeepSeek V4，并说明 Windows PowerShell 配置方式。"
 published: 2026-05-14
 tags: ["Claude Code", "DeepSeek", "AI 编程", "模型配置"]
+category: "推荐"
+author: "柚子是只猫"
+pinned: true
+image: "https://pub-1b603eec04f44f0299bbbf432556c529.r2.dev/blog/af627a60-8d94-4f0c-a31c-12cac9136bd9.png"
+
 ---
 
 Claude Code 默认面向 Anthropic 的 Claude 模型，但它的请求形态可以通过环境变量指向 Anthropic 兼容接口。DeepSeek 官方提供了 Claude Code 接入说明，因此可以把 Claude Code 的终端交互体验和 DeepSeek V4 的模型能力结合起来。

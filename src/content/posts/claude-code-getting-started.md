@@ -3,6 +3,10 @@ title: "手把手上手 Claude Code：从安装到第一次读懂项目"
 description: "面向第一次使用 Claude Code 的开发者，完整走一遍安装、启动、常用命令、上下文准备和第一个真实任务。"
 published: 2026-05-14
 tags: ["Claude Code", "AI 编程", "效率工具"]
+category: "推荐"
+author: "柚子是只猫"
+pinned: false
+image: "https://pub-1b603eec04f44f0299bbbf432556c529.r2.dev/blog/db6812ee-8cf4-423e-a8cd-82c55f415ead.jpg"
 ---
 
 Claude Code 不是一个只会补全代码的编辑器插件，它更像一个运行在终端里的协作型开发助手。它能读取项目文件、执行命令、修改代码、解释架构，也能围绕一个目标连续推进多步任务。

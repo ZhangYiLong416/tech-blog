@@ -2,10 +2,10 @@ import type { AnnouncementConfig } from "../types/config";
 
 export const announcementConfig: AnnouncementConfig = {
 	// 公告标题
-	title: "公告",
+	title: "本站公告",
 
 	// 公告内容
-	content: "欢迎来到我的博客！这是一则示例公告。",
+	content: "如果觉得字太小，可以按住ctrl+鼠标滚轮调整页面大小",
 
 	// 是否允许用户关闭公告
 	closable: true,

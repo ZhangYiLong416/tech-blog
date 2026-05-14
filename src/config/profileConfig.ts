@@ -6,10 +6,10 @@ export const profileConfig: ProfileConfig = {
 	// 1. public 目录（以 "/" 开头，不优化）："/assets/images/avatar.webp"
 	// 2. src 目录（不以 "/" 开头，自动优化但会增加构建时间，推荐）："assets/images/avatar.webp"
 	// 3. 远程 URL："https://example.com/avatar.jpg"
-	avatar: "assets/images/avatar.avif",
+	avatar: "assets/images/avatar_1.avif",
 
 	// 名字
-	name: "技术手记",
+	name: "柚子是只猫",
 
 	// 个人签名
 	bio: "记录工程实践、AI 编程和长期可复用的技术经验。",
@@ -22,28 +22,28 @@ export const profileConfig: ProfileConfig = {
 	// showName: true 时显示图标和名称，false 时只显示图标
 	links: [
 		{
-			name: "qq",
-			icon: "fa7-brands:qq",
-			url: "https://qm.qq.com/q/ZGsFa8qX2G",
-			showName: false,
+			name: "YouTube",
+			icon: "simple-icons:youtube",
+			url: "https://www.youtube.com/@%E5%BC%A0%E4%B8%80%E9%BE%99-k7l",
+			showName: true,
 		},
 		{
 			name: "GitHub",
 			icon: "fa7-brands:github",
 			url: "https://github.com/ZhangYiLong416",
-			showName: false,
+			showName: true,
 		},
 		{
-			name: "Email",
+			name: "BiliBili",
+			icon: "simple-icons:bilibili",
+			url: "https://space.bilibili.com/402195048",
+			showName: true,
+		},
+		{
+			name: "Mail",
 			icon: "fa7-solid:envelope",
-			url: "mailto:xiaye@msn.com",
-			showName: false,
-		},
-		{
-			name: "RSS",
-			icon: "fa7-solid:rss",
-			url: "/rss/",
-			showName: false,
+			url: "mailto:zhang1042405153@gmail.com",
+			showName: true,
 		},
 	],
 };

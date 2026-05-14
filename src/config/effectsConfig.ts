@@ -28,7 +28,7 @@ export const sakuraConfig: SakuraConfig = {
 		// 樱花最小不透明度
 		min: 0.3,
 		// 樱花最大不透明度
-		max: 0.9,
+		max: 0.6,
 	},
 
 	// 樱花移动速度
