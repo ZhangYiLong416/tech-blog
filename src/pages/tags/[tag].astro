@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../consts";
+import { getAllTags, getPublishedPosts } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const tags = await getAllTags();
+
+  return tags.map(([tag]) => ({
+    params: { tag },
+    props: { tag }
+  }));
+}
+
+interface Props {
+  tag: string;
+}
+
+const { tag } = Astro.props;
+const posts = (await getPublishedPosts()).filter((post) => post.data.tags.includes(tag));
+---
+
+<BaseLayout title={`标签：${tag}`} description={`标签 ${tag} 下的文章。`}>
+  <section class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Tag</p>
+        <h1>{tag}</h1>
+        <p>共 {posts.length} 篇文章。</p>
+      </div>
+    </div>
+    <div class="article-list">
+      {
+        posts.map((post) => (
+          <a class="article-row" href={withBase(`/posts/${post.id}/`)}>
+            <time class="meta" datetime={post.data.published.toISOString()}>
+              {post.data.published.toLocaleDateString("zh-CN")}
+            </time>
+            <div>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

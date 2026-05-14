@@ -1,0 +1,39 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import { withBase } from "../../consts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="container prose">
+    <header>
+      <p class="eyebrow">Article</p>
+      <h1>{post.data.title}</h1>
+      <p class="lead">{post.data.description}</p>
+      <p class="meta">
+        发布于 {post.data.published.toLocaleDateString("zh-CN")}
+        {post.data.updated && ` · 更新于 ${post.data.updated.toLocaleDateString("zh-CN")}`}
+      </p>
+      <div class="tag-list">
+        {post.data.tags.map((tag) => <a class="tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>{tag}</a>)}
+      </div>
+    </header>
+    <Content />
+  </article>
+</BaseLayout>

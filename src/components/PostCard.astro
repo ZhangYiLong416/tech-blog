@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { withBase } from "../consts";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const date = post.data.published.toLocaleDateString("zh-CN", {
+  year: "numeric",
+  month: "short",
+  day: "numeric"
+});
+---
+
+<a class="post-card" href={withBase(`/posts/${post.id}/`)}>
+  <div>
+    <p class="meta">{date}</p>
+    <h3>{post.data.title}</h3>
+    <p>{post.data.description}</p>
+  </div>
+  <div class="tag-list" aria-label="文章标签">
+    {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+</a>
