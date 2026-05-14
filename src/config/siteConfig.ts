@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "记录工程实践、系统设计、工具链与日常踩坑。",
 
 	// 站点 URL
-	site_url: "https://zhangyilong416.github.io/tech-blog",
+	site_url: "https://blog.1024588.xyz",
 
 	// 站点描述
 	description:
