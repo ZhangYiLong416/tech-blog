@@ -1,23 +1,25 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+
+import { getEntry, render } from "astro:content";
+import Markdown from "@components/common/Markdown.astro";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+
+const aboutPost = await getEntry("spec", "about");
+
+if (!aboutPost) {
+	throw new Error("About page content not found");
+}
+
+const { Content } = await render(aboutPost);
 ---
-
-<BaseLayout title="关于" description="关于作者和这个博客。">
-  <section class="container prose">
-    <header>
-      <p class="eyebrow">About</p>
-      <h1>关于我</h1>
-      <p class="lead">这里可以写你的技术方向、工作经历、正在关注的问题，以及读者可以如何联系你。</p>
-    </header>
-
-    <h2>我会写什么</h2>
-    <p>
-      这个博客主要记录技术实践：后端服务、前端工程、部署运维、系统设计、性能优化和工具链改造。
-    </p>
-
-    <h2>写作原则</h2>
-    <p>
-      每篇文章尽量保留问题背景、约束条件、方案取舍和验证方式。这样文章不只是结果，也是一份能被复盘的工程记录。
-    </p>
-  </section>
-</BaseLayout>
+<MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
+    <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-9 py-6 relative w-full ">
+            <Markdown class="mt-2">
+                <Content />
+            </Markdown>
+        </div>
+    </div>
+</MainGridLayout>
