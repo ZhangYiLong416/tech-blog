@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="description" content="用一个可复用的工程流程说明 Claude Code 如何参与日常开发，而不是只停留在聊天式生成代码。"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:title" content="把 Claude Code 放进真实开发流程：读代码、修 Bug、补测试、做 Review | 技术手记"><meta property="og:description" content="用一个可复用的工程流程说明 Claude Code 如何参与日常开发，而不是只停留在聊天式生成代码。"><meta property="og:type" content="website"><link rel="alternate" type="application/rss+xml" title="技术手记" href="/tech-blog/rss.xml"><title>把 Claude Code 放进真实开发流程：读代码、修 Bug、补测试、做 Review | 技术手记</title><link rel="stylesheet" href="/tech-blog/_astro/BaseLayout.v-WEPRbQ.css"></head> <body> <div class="site-shell"> <header class="site-header"> <nav class="container nav" aria-label="主导航"> <a class="brand" href="/tech-blog/"> <span class="brand-mark">T</span> <span>技术手记</span> </a> <div class="nav-links"> <a href="/tech-blog/"> 首页 </a><a href="/tech-blog/posts/"> 文章 </a><a href="/tech-blog/tags/"> 标签 </a><a href="/tech-blog/projects/"> 项目 </a><a href="/tech-blog/about/"> 关于 </a> </div> </nav> </header> <main class="site-main">  <article class="container prose"> <header> <p class="eyebrow">Article</p> <h1>把 Claude Code 放进真实开发流程：读代码、修 Bug、补测试、做 Review</h1> <p class="lead">用一个可复用的工程流程说明 Claude Code 如何参与日常开发，而不是只停留在聊天式生成代码。</p> <p class="meta">
+发布于 2026/5/14  </p> <div class="tag-list"> <a class="tag" href="/tech-blog/tags/Claude%20Code/">Claude Code</a><a class="tag" href="/tech-blog/tags/AI%20%E7%BC%96%E7%A8%8B/">AI 编程</a><a class="tag" href="/tech-blog/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/">工程实践</a><a class="tag" href="/tech-blog/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/">代码审查</a> </div> </header> <p>很多人第一次用 Claude Code，会让它“帮我写一个功能”。这当然可以，但更好的用法是把它放进真实开发流程：先理解现状，再定位问题，小步修改，运行验证，最后做提交前 review。</p>
+<p>这篇文章给出一个可复用模板，适合修 bug、补功能、小重构和代码审查。</p>
+<h2 id="第一步让它读现状不要急着改">第一步：让它读现状，不要急着改</h2>
+<p>开场可以这样说：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>请先阅读这个项目，不要修改文件。</span></span>
+<span class="line"><span>目标是理解这个 bug 可能发生在哪里。</span></span>
+<span class="line"><span>请告诉我：</span></span>
+<span class="line"><span>1. 相关模块和文件。</span></span>
+<span class="line"><span>2. 当前数据流。</span></span>
+<span class="line"><span>3. 可能的原因。</span></span>
+<span class="line"><span>4. 你建议先检查什么。</span></span></code></pre>
+<p>这一步的价值是把 Claude Code 从“生成代码模式”拉回“工程分析模式”。很多 bug 并不难修，难的是找准位置。</p>
+<h2 id="第二步给它复现信息">第二步：给它复现信息</h2>
+<p>如果你有报错、截图、日志或复现步骤，一次性给齐：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>复现步骤：</span></span>
+<span class="line"><span>1. 登录普通用户账号。</span></span>
+<span class="line"><span>2. 打开 /settings/profile。</span></span>
+<span class="line"><span>3. 修改头像后点击保存。</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>实际结果：页面提示成功，但刷新后头像恢复旧图。</span></span>
+<span class="line"><span>期望结果：刷新后仍显示新头像。</span></span></code></pre>
+<p>如果有日志，贴关键几行即可。不要把几千行日志直接塞进去，可以先让它告诉你需要哪一段。</p>
+<h2 id="第三步让它提出最小修改方案">第三步：让它提出最小修改方案</h2>
+<p>在动手前，让 Claude Code 输出方案：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>请给出最小修改方案。</span></span>
+<span class="line"><span>要求：</span></span>
+<span class="line"><span>1. 尽量不改变现有接口。</span></span>
+<span class="line"><span>2. 不做顺手重构。</span></span>
+<span class="line"><span>3. 说明需要补哪些测试。</span></span>
+<span class="line"><span>4. 说明可能影响哪些页面。</span></span></code></pre>
+<p>如果方案里出现“顺便统一重构”“改造整个状态管理”之类的内容，要让它收窄。真实项目里，小而确定的改动通常更容易上线。</p>
+<h2 id="第四步执行并验证">第四步：执行并验证</h2>
+<p>确认方案后再让它实现：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>按方案实现。完成后运行相关测试和构建。如果验证失败，先解释失败原因，再继续修复。</span></span></code></pre>
+<p>你也可以明确验证命令：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>npm run test</span></span>
+<span class="line"><span>npm run build</span></span></code></pre>
+<p>如果项目很大，不一定每次都跑全量测试。可以先跑相关测试，再在提交前跑完整检查。</p>
+<h2 id="第五步让它做提交前-review">第五步：让它做提交前 Review</h2>
+<p>改完后，不要马上提交。让 Claude Code review 自己的改动：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>请 review 当前未提交改动。</span></span>
+<span class="line"><span>重点看：</span></span>
+<span class="line"><span>1. 是否有行为回归。</span></span>
+<span class="line"><span>2. 是否有遗漏测试。</span></span>
+<span class="line"><span>3. 是否有无关改动。</span></span>
+<span class="line"><span>4. 是否有敏感信息或调试代码。</span></span></code></pre>
+<p>这个步骤很有用，因为 Claude Code 在“实现模式”和“审查模式”下关注点不同。让它切换视角，经常能发现刚才没注意到的问题。</p>
+<h2 id="第六步整理提交说明">第六步：整理提交说明</h2>
+<p>如果 review 没有问题，再让它生成提交说明：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>请基于当前 diff 生成一个简洁的 git commit message。</span></span>
+<span class="line"><span>格式：</span></span>
+<span class="line"><span>第一行不超过 50 个字符。</span></span>
+<span class="line"><span>正文说明修改原因和验证方式。</span></span></code></pre>
+<p>好的提交说明应该解释“为什么改”，而不只是罗列“改了什么”。</p>
+<h2 id="推荐模板">推荐模板</h2>
+<p>可以把这段保存成自己的常用提示：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>我们要处理一个真实开发任务。请按以下流程工作：</span></span>
+<span class="line"><span>1. 先阅读相关代码，不要修改文件。</span></span>
+<span class="line"><span>2. 总结现状、数据流、风险点。</span></span>
+<span class="line"><span>3. 提出最小修改方案和验证方式。</span></span>
+<span class="line"><span>4. 等我确认后再实现。</span></span>
+<span class="line"><span>5. 实现后运行验证命令。</span></span>
+<span class="line"><span>6. 最后 review 当前 diff，列出风险和测试结果。</span></span></code></pre>
+<p>如果你经常使用这套流程，可以把它沉淀成 Claude Code Skill，让它成为团队标准工作流。</p>
+<h2 id="适用边界">适用边界</h2>
+<p>Claude Code 很适合帮你推进明确目标的工程任务，但不适合替你拍板模糊的产品决策。涉及安全、计费、权限、数据删除、线上发布时，一定要保持人工确认。</p>
+<p>把它当成一个很能干的协作者，而不是无人监督的自动提交机器，效果会更稳定。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://docs.claude.com/en/docs/claude-code">Claude Code 官方文档</a></li>
+<li><a href="https://docs.claude.com/en/docs/claude-code/github-actions">Claude Code GitHub Actions</a></li>
+<li><a href="https://www.cnblogs.com/wintersun/p/19561413">Claude Code 团队内部使用指南</a></li>
+<li><a href="https://www.cnblogs.com/hogwarts/p/19894755">50 个 Claude Code 日常使用技巧与最佳实践</a></li>
+</ul> </article>  </main> <footer class="site-footer"> <div class="container footer-inner"> <span>© 2026 Your Name</span> <span>用 Astro、Markdown 和一点长期主义搭建。</span> </div> </footer> </div> </body></html>

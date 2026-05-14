@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="description" content="通过 DeepSeek 的 Anthropic 兼容接口，把 Claude Code 的终端工作流接到 DeepSeek V4，并说明 Windows PowerShell 配置方式。"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:title" content="在 Claude Code 里使用 DeepSeek V4：配置、模型映射与排错 | 技术手记"><meta property="og:description" content="通过 DeepSeek 的 Anthropic 兼容接口，把 Claude Code 的终端工作流接到 DeepSeek V4，并说明 Windows PowerShell 配置方式。"><meta property="og:type" content="website"><link rel="alternate" type="application/rss+xml" title="技术手记" href="/tech-blog/rss.xml"><title>在 Claude Code 里使用 DeepSeek V4：配置、模型映射与排错 | 技术手记</title><link rel="stylesheet" href="/tech-blog/_astro/BaseLayout.v-WEPRbQ.css"></head> <body> <div class="site-shell"> <header class="site-header"> <nav class="container nav" aria-label="主导航"> <a class="brand" href="/tech-blog/"> <span class="brand-mark">T</span> <span>技术手记</span> </a> <div class="nav-links"> <a href="/tech-blog/"> 首页 </a><a href="/tech-blog/posts/"> 文章 </a><a href="/tech-blog/tags/"> 标签 </a><a href="/tech-blog/projects/"> 项目 </a><a href="/tech-blog/about/"> 关于 </a> </div> </nav> </header> <main class="site-main">  <article class="container prose"> <header> <p class="eyebrow">Article</p> <h1>在 Claude Code 里使用 DeepSeek V4：配置、模型映射与排错</h1> <p class="lead">通过 DeepSeek 的 Anthropic 兼容接口，把 Claude Code 的终端工作流接到 DeepSeek V4，并说明 Windows PowerShell 配置方式。</p> <p class="meta">
+发布于 2026/5/14  </p> <div class="tag-list"> <a class="tag" href="/tech-blog/tags/Claude%20Code/">Claude Code</a><a class="tag" href="/tech-blog/tags/DeepSeek/">DeepSeek</a><a class="tag" href="/tech-blog/tags/AI%20%E7%BC%96%E7%A8%8B/">AI 编程</a><a class="tag" href="/tech-blog/tags/%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE/">模型配置</a> </div> </header> <p>Claude Code 默认面向 Anthropic 的 Claude 模型，但它的请求形态可以通过环境变量指向 Anthropic 兼容接口。DeepSeek 官方提供了 Claude Code 接入说明，因此可以把 Claude Code 的终端交互体验和 DeepSeek V4 的模型能力结合起来。</p>
+<p>这篇文章只讲配置方法和排错，不会保存任何 API Key 到项目里。</p>
+<h2 id="先理解几个环境变量">先理解几个环境变量</h2>
+<p>接入第三方兼容接口时，核心变量是：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">ANTHROPIC_BASE_URL</span></span>
+<span class="line"><span style="color:#B392F0">ANTHROPIC_AUTH_TOKEN</span></span>
+<span class="line"><span style="color:#B392F0">ANTHROPIC_MODEL</span></span>
+<span class="line"><span style="color:#B392F0">ANTHROPIC_DEFAULT_OPUS_MODEL</span></span>
+<span class="line"><span style="color:#B392F0">ANTHROPIC_DEFAULT_SONNET_MODEL</span></span>
+<span class="line"><span style="color:#B392F0">ANTHROPIC_DEFAULT_HAIKU_MODEL</span></span>
+<span class="line"><span style="color:#B392F0">CLAUDE_CODE_SUBAGENT_MODEL</span></span></code></pre>
+<p>它们分别控制请求地址、认证令牌、默认模型，以及 Claude Code 内部不同模型槽位对应的模型。</p>
+<p>DeepSeek 官方文档给出的 Anthropic 兼容地址是：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>https://api.deepseek.com/anthropic</span></span></code></pre>
+<p>API Key 需要去 DeepSeek Platform 获取。不要把真实 Key 写入博客、仓库或截图里。</p>
+<h2 id="windows-powershell-配置">Windows PowerShell 配置</h2>
+<p>如果你在 Windows 上使用 PowerShell，可以在启动 Claude Code 前设置环境变量：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">ANTHROPIC_BASE_URL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"https://api.deepseek.com/anthropic"</span></span>
+<span class="line"><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">ANTHROPIC_AUTH_TOKEN</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"&#x3C;你的 DeepSeek API Key>"</span></span>
+<span class="line"><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">ANTHROPIC_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-pro[1m]"</span></span>
+<span class="line"><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">ANTHROPIC_DEFAULT_OPUS_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-pro[1m]"</span></span>
+<span class="line"><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">ANTHROPIC_DEFAULT_SONNET_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-pro[1m]"</span></span>
+<span class="line"><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">ANTHROPIC_DEFAULT_HAIKU_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-flash"</span></span>
+<span class="line"><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">CLAUDE_CODE_SUBAGENT_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-flash"</span></span>
+<span class="line"><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">CLAUDE_CODE_EFFORT_LEVEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"max"</span></span>
+<span class="line"><span style="color:#E1E4E8">claude</span></span></code></pre>
+<p>这组变量只对当前 PowerShell 窗口有效。关闭窗口后不会继续保留，适合先测试。</p>
+<p>如果你想长期使用，可以把它们写进你的 shell profile，但不要写进项目仓库。</p>
+<h2 id="mac-或-linux-配置">Mac 或 Linux 配置</h2>
+<p>在 bash、zsh 里可以使用：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> ANTHROPIC_BASE_URL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"https://api.deepseek.com/anthropic"</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> ANTHROPIC_AUTH_TOKEN</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"&#x3C;你的 DeepSeek API Key>"</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> ANTHROPIC_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-pro[1m]"</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> ANTHROPIC_DEFAULT_OPUS_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-pro[1m]"</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> ANTHROPIC_DEFAULT_SONNET_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-pro[1m]"</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> ANTHROPIC_DEFAULT_HAIKU_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-flash"</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> CLAUDE_CODE_SUBAGENT_MODEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"deepseek-v4-flash"</span></span>
+<span class="line"><span style="color:#F97583">export</span><span style="color:#E1E4E8"> CLAUDE_CODE_EFFORT_LEVEL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"max"</span></span>
+<span class="line"><span style="color:#B392F0">claude</span></span></code></pre>
+<p>建议先在临时终端里验证，再决定是否写入 <code>~/.zshrc</code> 或 <code>~/.bashrc</code>。</p>
+<h2 id="模型映射怎么选">模型映射怎么选</h2>
+<p>一个实用配置是：复杂规划和主任务用 V4 Pro，子任务或轻量任务用 V4 Flash。</p>
+<ul>
+<li><code>deepseek-v4-pro[1m]</code>：适合架构分析、复杂重构、长上下文任务。</li>
+<li><code>deepseek-v4-flash</code>：适合快速问答、子代理、简单检索和较轻的代码改动。</li>
+</ul>
+<p>如果你发现响应速度比预期慢，可以把默认模型先换成 Flash，再只在复杂任务时切回 Pro。</p>
+<h2 id="常见错误排查">常见错误排查</h2>
+<p>第一类是认证失败。检查 <code>ANTHROPIC_AUTH_TOKEN</code> 是否真的设置在启动 Claude Code 的同一个终端里：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">echo $</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">ANTHROPIC_AUTH_TOKEN</span></span></code></pre>
+<p>不要把 Key 粘到命令历史、截图或仓库文件里。</p>
+<p>第二类是地址拼错。Claude Code 会在兼容接口基础上调用消息接口，所以 <code>ANTHROPIC_BASE_URL</code> 要使用 DeepSeek 文档给出的 Anthropic 兼容地址，不要随意混用 OpenAI 兼容地址。</p>
+<p>第三类是模型名不匹配。优先使用 DeepSeek 当前文档列出的模型 ID。如果模型名发生更新，以官方文档为准。</p>
+<p>第四类是项目里误提交了配置。建议 <code>.gitignore</code> 忽略 <code>.env</code> 和 <code>.env.*</code>，并只提供 <code>.env.example</code> 作为示例。</p>
+<h2 id="适用边界">适用边界</h2>
+<p>这类接入方式适合希望保留 Claude Code 工作流，同时尝试 DeepSeek 模型成本、速度或上下文能力的开发者。它不等于 Claude 官方模型，也不保证所有 Claude Code 特性在第三方模型上体验完全一致。</p>
+<p>我的建议是：先用一个小项目验证读代码、改文件、跑测试、总结风险这些基本流程，再决定是否作为主力配置。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/claude_code">DeepSeek：接入 Claude Code</a></li>
+<li><a href="https://deepseekai.guide/api/deepseek-api-sdk/">DeepSeek API SDK 与 Anthropic 兼容接口说明</a></li>
+<li><a href="https://claude-codex.fr/en/reference/environment">Claude Code 环境变量参考</a></li>
+</ul> </article>  </main> <footer class="site-footer"> <div class="container footer-inner"> <span>© 2026 Your Name</span> <span>用 Astro、Markdown 和一点长期主义搭建。</span> </div> </footer> </div> </body></html>

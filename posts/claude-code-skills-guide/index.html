@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="description" content="系统讲清 Claude Code Skills 的目录结构、SKILL.md 写法、触发方式、团队共享和调试方法。"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:title" content="Claude Code Skill 详解：把重复提示词变成可复用能力 | 技术手记"><meta property="og:description" content="系统讲清 Claude Code Skills 的目录结构、SKILL.md 写法、触发方式、团队共享和调试方法。"><meta property="og:type" content="website"><link rel="alternate" type="application/rss+xml" title="技术手记" href="/tech-blog/rss.xml"><title>Claude Code Skill 详解：把重复提示词变成可复用能力 | 技术手记</title><link rel="stylesheet" href="/tech-blog/_astro/BaseLayout.v-WEPRbQ.css"></head> <body> <div class="site-shell"> <header class="site-header"> <nav class="container nav" aria-label="主导航"> <a class="brand" href="/tech-blog/"> <span class="brand-mark">T</span> <span>技术手记</span> </a> <div class="nav-links"> <a href="/tech-blog/"> 首页 </a><a href="/tech-blog/posts/"> 文章 </a><a href="/tech-blog/tags/"> 标签 </a><a href="/tech-blog/projects/"> 项目 </a><a href="/tech-blog/about/"> 关于 </a> </div> </nav> </header> <main class="site-main">  <article class="container prose"> <header> <p class="eyebrow">Article</p> <h1>Claude Code Skill 详解：把重复提示词变成可复用能力</h1> <p class="lead">系统讲清 Claude Code Skills 的目录结构、SKILL.md 写法、触发方式、团队共享和调试方法。</p> <p class="meta">
+发布于 2026/5/14  </p> <div class="tag-list"> <a class="tag" href="/tech-blog/tags/Claude%20Code/">Claude Code</a><a class="tag" href="/tech-blog/tags/Skills/">Skills</a><a class="tag" href="/tech-blog/tags/AI%20%E7%BC%96%E7%A8%8B/">AI 编程</a><a class="tag" href="/tech-blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a> </div> </header> <p>如果你经常对 Claude Code 重复说同一段话，比如“请按我们团队的代码审查标准检查这个 PR”，或者“生成文章时使用固定结构和语气”，那就应该考虑把它做成 Skill。</p>
+<p>Skill 的本质是把一段专业工作流包装成一个可发现、可复用、可共享的能力。Claude Code 会在合适的时候加载它，也可以通过斜杠命令直接调用。</p>
+<h2 id="skill-适合放什么">Skill 适合放什么</h2>
+<p>适合做成 Skill 的内容通常有这些特征：</p>
+<ul>
+<li>你会反复使用同一套步骤。</li>
+<li>它有明确输入和输出格式。</li>
+<li>它依赖项目约定、团队规范或固定检查表。</li>
+<li>它需要附带模板、示例、脚本或参考资料。</li>
+</ul>
+<p>不适合做成 Skill 的内容是“某个临时问题的一次性答案”。如果只是今天问一次，直接在对话里说清楚即可。</p>
+<h2 id="基本目录结构">基本目录结构</h2>
+<p>一个最小 Skill 是一个目录加一个 <code>SKILL.md</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>.claude/</span></span>
+<span class="line"><span>  skills/</span></span>
+<span class="line"><span>    code-reviewer/</span></span>
+<span class="line"><span>      SKILL.md</span></span></code></pre>
+<p>项目级 Skill 放在项目内的 <code>.claude/skills/</code>，适合团队共享。个人级 Skill 通常放在用户目录下，适合自己的长期习惯。</p>
+<p>更完整的 Skill 可以包含参考文件、模板和脚本：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>code-reviewer/</span></span>
+<span class="line"><span>  SKILL.md</span></span>
+<span class="line"><span>  checklist.md</span></span>
+<span class="line"><span>  examples/</span></span>
+<span class="line"><span>    review-output.md</span></span>
+<span class="line"><span>  scripts/</span></span>
+<span class="line"><span>    collect-diff.sh</span></span></code></pre>
+<p>Claude Code 会先读 <code>SKILL.md</code>，只有需要时才加载额外文件。这种渐进加载能减少上下文浪费。</p>
+<h2 id="skillmd-怎么写">SKILL.md 怎么写</h2>
+<p><code>SKILL.md</code> 顶部需要 YAML frontmatter，至少写清楚名称和描述：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="md"><code><span class="line"><span style="color:#79B8FF;font-weight:bold">---</span></span>
+<span class="line"><span style="color:#E1E4E8">name: Code Reviewer</span></span>
+<span class="line"><span style="color:#E1E4E8">description: Review code changes for correctness, maintainability, tests, and security. Use when reviewing pull requests or checking uncommitted changes.</span></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Code Reviewer</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Instructions</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8"> Inspect the current diff before commenting.</span></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8"> Prioritize bugs, regressions, security issues, and missing tests.</span></span>
+<span class="line"><span style="color:#FFAB70">3.</span><span style="color:#E1E4E8"> Report findings first, ordered by severity.</span></span>
+<span class="line"><span style="color:#FFAB70">4.</span><span style="color:#E1E4E8"> Include file and line references when possible.</span></span></code></pre>
+<p><code>description</code> 非常关键。Claude Code 判断是否使用某个 Skill，主要靠它理解描述里的触发场景。描述太泛，比如“helps with code”，就容易误触发或不触发。</p>
+<h2 id="自动触发与手动调用">自动触发与手动调用</h2>
+<p>Skill 有两种使用方式。</p>
+<p>第一种是自动触发。你说：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>帮我 review 当前分支的改动。</span></span></code></pre>
+<p>如果 Skill 描述明确包含 review、diff、pull request 等触发词，Claude Code 就可能自动加载它。</p>
+<p>第二种是手动调用。新版 Claude Code 中，Skill 可以像命令一样通过 <code>/skill-name</code> 调用：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>/code-reviewer</span></span></code></pre>
+<p>手动调用适合你很确定要使用某个 Skill 的场景，自动触发适合自然语言工作流。</p>
+<h2 id="支持文件怎么组织">支持文件怎么组织</h2>
+<p>如果 Skill 内容较长，不要把所有东西塞进 <code>SKILL.md</code>。可以把主文件写成入口，把细节拆到附加文件里：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="md"><code><span class="line"><span style="color:#79B8FF;font-weight:bold">## Detailed Checklist</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">For the full review checklist, read [</span><span style="color:#DBEDFF;text-decoration:underline">checklist.md</span><span style="color:#E1E4E8">](</span><span style="color:#E1E4E8;text-decoration:underline">checklist.md</span><span style="color:#E1E4E8">).</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Output Format</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Use the format shown in [</span><span style="color:#DBEDFF;text-decoration:underline">examples/review-output.md</span><span style="color:#E1E4E8">](</span><span style="color:#E1E4E8;text-decoration:underline">examples/review-output.md</span><span style="color:#E1E4E8">).</span></span></code></pre>
+<p>这样 Claude Code 只有在需要深挖时才加载大文件，平时只读核心指令。</p>
+<h2 id="团队共享建议">团队共享建议</h2>
+<p>团队 Skill 推荐放进项目仓库：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>.claude/skills/team-review/SKILL.md</span></span>
+<span class="line"><span>.claude/skills/release-note/SKILL.md</span></span>
+<span class="line"><span>.claude/skills/db-migration-check/SKILL.md</span></span></code></pre>
+<p>适合团队共享的 Skill 包括：</p>
+<ul>
+<li>代码审查标准。</li>
+<li>发布说明格式。</li>
+<li>数据库迁移检查清单。</li>
+<li>前端组件规范。</li>
+<li>安全敏感操作前的确认流程。</li>
+</ul>
+<p>这比把所有规则写进一个巨大的 <code>CLAUDE.md</code> 更灵活，因为 Skill 只有在相关任务中才加载。</p>
+<h2 id="调试-skill-不生效">调试 Skill 不生效</h2>
+<p>如果 Claude Code 没有使用你的 Skill，优先检查：</p>
+<ol>
+<li>路径是否正确，是否存在 <code>SKILL.md</code>。</li>
+<li>YAML frontmatter 是否合法。</li>
+<li><code>description</code> 是否足够具体。</li>
+<li>当前任务描述是否包含触发场景。</li>
+<li>Claude Code 是否需要重启才能加载新 Skill。</li>
+</ol>
+<p>一个好用的测试提示是：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>当前有哪些 Skills 可用？请说明每个 Skill 适合什么场景。</span></span></code></pre>
+<p>如果列表里没有你的 Skill，先查路径和 YAML；如果列表里有但不触发，再优化 description。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://docs.claude.com/en/docs/claude-code/skills">Agent Skills 官方文档</a></li>
+<li><a href="https://code.claude.com/docs/en/skills">Claude Code：Extend Claude with skills</a></li>
+<li><a href="https://support.claude.com/en/articles/12512180-using-skills-in-claude">Claude Help Center：Use Skills in Claude</a></li>
+</ul> </article>  </main> <footer class="site-footer"> <div class="container footer-inner"> <span>© 2026 Your Name</span> <span>用 Astro、Markdown 和一点长期主义搭建。</span> </div> </footer> </div> </body></html>
