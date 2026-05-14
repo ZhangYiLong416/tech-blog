@@ -3,8 +3,8 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://ZhangYiLong416.github.io",
-  base: "/tech-blog",
+  site: "https://blog.1024588.xyz",
+  base: "/",
   integrations: [mdx(), sitemap()],
   markdown: {
     shikiConfig: {
