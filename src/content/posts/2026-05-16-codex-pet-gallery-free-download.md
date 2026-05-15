@@ -90,55 +90,40 @@ https://codexpet.1024588.xyz/?style=cartoon
 
 ![GUGUGAGA spritesheet](/assets/images/posts/codex-pet-gallery/gugugaga-spritesheet.png)
 
-这些 spritesheet 会被 Codex 按行和帧数切分，映射到待机、移动、等待、检查等动作状态。你在页面上看到的是宠物包能否正常工作的关键资产。
+这些 spritesheet 会被 Codex 按行和帧数切分，映射到待机、移动、等待、检查等动作状态。
 
-## 第四步：下载宠物包
 
+## 第四步：下载安装宠物包
+下载方式分两种：
+### 第一种：直接下载文件压缩包 ###
 如果你只想先保存宠物，可以直接点击卡片或详情页里的“下载”按钮。下载得到的是一个宠物压缩包，文件名类似：
 
 ```text
-ikun-pet.codex-pet.zip
+ikun-pet.zip
 ```
 
-这个方式适合你想先收藏，或者准备手动检查包内容。
+找到codex的pets目录（快捷查看目录所在位置：打开codex软件-->>设置-->>外观-->>宠物-->自定义宠物-->>打开文件夹），
+将压缩包解压至当前文件夹中即可，回到Codex软件刷新后就可以配置自定义宠物了
+![pets所在目录](/assets/images/posts/codex-pet-gallery/pets-image.png)
+### 第二种：复制安装命令并执行（推荐） ###
 
-但如果目标是直接安装到 Codex，本页面更推荐用“复制安装命令”。
-
-## 第五步：复制安装命令并执行
-
-每个宠物都会生成一条 PowerShell 安装命令，格式如下：
+点击“复制安装命令”，会自动复制一个可以在 PowerShell 执行的安装命令，格式如下：
 
 ```powershell
 irm https://codexpet.xyz/install/ikun-pet?platform=ps1 | iex
 ```
-
 使用方式：
 
 1. 在画廊里找到喜欢的宠物。
 2. 点击“复制安装命令”。
-3. 打开 Windows PowerShell。
+3. 打开 Windows PowerShell（点击windows电脑的搜索按钮，搜索Windows PowerShell，右键以管理员身份打开）。
 4. 粘贴命令并回车。
-5. 等待脚本下载并安装宠物包。
+5. 等待脚本下载并安装宠物包，看到下面这个界面说明已经安装完成了。
+![Windows PowerShell界面](/assets/images/posts/codex-pet-gallery/powerShell.png)
+安装后，回到Codex软件的自定义宠物页面就可以进行切换了。
+![自定义宠物](/assets/images/posts/codex-pet-gallery/image.png)
 
-安装后，宠物会放到类似下面的位置：
-
-```text
-~/.codex/pets/ikun-pet/
-```
-
-如果你使用的是其他宠物，路径里的 `ikun-pet` 会替换成对应的宠物 slug。
-
-## 第六步：在 Codex 中使用
-
-安装完成后，重新打开 Codex 或刷新桌宠配置。如果当前 Codex 环境支持宠物选择，就可以切换到刚安装的宠物。
-
-建议你第一次安装后检查三件事：
-
-1. 宠物目录是否存在。
-2. 目录里是否包含 `pet.json` 和 spritesheet 图片。
-3. Codex 里是否能正常显示待机、移动、等待等动作。
-
-如果显示异常，优先换一个宠物再试。社区宠物来源多，个别包可能存在命名、尺寸或动画配置不一致的问题。
+恭喜你，到这里就完成了codex桌宠的安装！
 
 ## 适合哪些人
 
