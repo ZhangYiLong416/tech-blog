@@ -1,0 +1,72 @@
+0 verbose cli D:\Program Files\nodejs22\node.exe D:\Program Files\nodejs22\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.2
+2 info using node@v22.16.0
+3 silly config load:file:D:\Program Files\nodejs22\node_modules\npm\npmrc
+4 silly config load:file:D:\workSpace\SSR服务器\.npmrc
+5 silly config load:file:C:\Users\10424\.npmrc
+6 silly config load:file:D:\Soft\nodejs\node_global\etc\npmrc
+7 verbose title npm exec pnpm@9.14.4 run build
+8 verbose argv "exec" "--" "pnpm@9.14.4" "run" "build"
+9 verbose logfile logs-max:10 dir:D:\workSpace\SSR服务器\.npm-cache\_logs\2026-05-16T00_13_15_674Z-
+10 verbose logfile D:\workSpace\SSR服务器\.npm-cache\_logs\2026-05-16T00_13_15_674Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 http fetch GET 200 https://registry.npmmirror.com/npm 150ms
+14 http fetch GET 200 https://registry.npmmirror.com/pnpm 130ms (cache miss)
+15 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+16 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+17 warn exec The following package was not found and will be installed: pnpm@9.14.4
+18 silly idealTree buildDeps
+19 silly fetch manifest pnpm@9.14.4
+20 silly packumentCache full:http://registry.npm.taobao.org/pnpm cache-miss
+21 http fetch GET 200 https://registry.npmmirror.com/pnpm 96ms (cache miss)
+22 silly packumentCache full:http://registry.npm.taobao.org/pnpm set size:645868 disposed:false
+23 silly placeDep ROOT pnpm@9.14.4 OK for:  want: 9.14.4
+24 silly reify moves {}
+25 silly audit bulk request { pnpm: [ '9.14.4' ] }
+26 http cache pnpm@https://registry.npmmirror.com/pnpm/-/pnpm-9.14.4.tgz 1ms (cache hit)
+27 silly tarball no local data for pnpm@https://registry.npmmirror.com/pnpm/-/pnpm-9.14.4.tgz. Extracting by manifest.
+28 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/advisories/bulk 42ms (cache skip)
+29 silly audit bulk request failed [object Object]
+30 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/audits/quick 18ms (cache skip)
+31 verbose audit error HttpErrorGeneral: 404 Not Found - POST https://registry.npmmirror.com/-/npm/v1/security/audits/quick - [NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet
+31 verbose audit error     at D:\Program Files\nodejs22\node_modules\npm\node_modules\npm-registry-fetch\lib\check-response.js:103:15
+31 verbose audit error     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+31 verbose audit error     at async [getReport] (D:\Program Files\nodejs22\node_modules\npm\node_modules\@npmcli\arborist\lib\audit-report.js:336:21)
+31 verbose audit error     at async AuditReport.run (D:\Program Files\nodejs22\node_modules\npm\node_modules\@npmcli\arborist\lib\audit-report.js:106:19) {
+31 verbose audit error   headers: [Object: null prototype] {
+31 verbose audit error     server: [ 'Tengine' ],
+31 verbose audit error     date: [ 'Sat, 16 May 2026 00:13:20 GMT' ],
+31 verbose audit error     'content-type': [ 'application/json' ],
+31 verbose audit error     'transfer-encoding': [ 'chunked' ],
+31 verbose audit error     connection: [ 'keep-alive' ],
+31 verbose audit error     'strict-transport-security': [ 'max-age=5184000' ],
+31 verbose audit error     via: [ 'kunlun3.cn9185[,404666]' ],
+31 verbose audit error     'timing-allow-origin': [ '*' ],
+31 verbose audit error     eagleid: [ 'b7ccf08817788904000498918e' ],
+31 verbose audit error     'x-fetch-attempts': [ '1' ],
+31 verbose audit error     'x-local-cache-status': [ 'skip' ]
+31 verbose audit error   },
+31 verbose audit error   statusCode: 404,
+31 verbose audit error   code: 'E404',
+31 verbose audit error   method: 'POST',
+31 verbose audit error   uri: 'https://registry.npmmirror.com/-/npm/v1/security/audits/quick',
+31 verbose audit error   body: {
+31 verbose audit error     error: '[NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet'
+31 verbose audit error   },
+31 verbose audit error   pkgid: undefined
+31 verbose audit error }
+32 silly audit error [object Object]
+33 silly audit report null
+34 http fetch GET 200 https://cdn.npmmirror.com/packages/pnpm/9.14.4/pnpm-9.14.4.tgz 1756ms (cache miss)
+35 verbose cwd D:\workSpace\SSR服务器
+36 verbose os Windows_NT 10.0.26200
+37 verbose node v22.16.0
+38 verbose npm  v10.9.2
+39 notice
+39 notice New major version of npm available! 10.9.2 -> 11.14.1
+39 notice Changelog: https://github.com/npm/cli/releases/tag/v11.14.1
+39 notice To update run: npm install -g npm@11.14.1
+39 notice  { force: true, [Symbol(proc-log.meta)]: true }
+40 verbose exit 1
+41 verbose code 1
